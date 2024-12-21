@@ -7,7 +7,7 @@ metadata:
   annotations:
     cloud.google.com/backend-config: '{"default": "django-backend-config"}'
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: {{ .Values.django.appName }}
   ports:
