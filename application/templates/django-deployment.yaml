@@ -8,11 +8,11 @@ spec:
   replicas: {{ .Values.django.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.django.appName }}  # Change 'pod' to 'app' for consistency
+      app: {{ .Values.django.appName }}
   template:
     metadata:
       labels:
-        app: {{ .Values.django.appName }}  # Change 'pod' to 'app' for consistency
+        app: {{ .Values.django.appName }}
     spec:
       containers:
         - name: {{ .Values.django.appName }}
@@ -29,21 +29,19 @@ spec:
             limits:
               memory: {{ .Values.django.resources.limits.memory }}
               cpu: {{ .Values.django.resources.limits.cpu }}
-
-# Commenting the livenessProbe and readinessProbe 
           livenessProbe:
             httpGet:
-                 path: /health/
-                 port: 8000
-             initialDelaySeconds: 120
-             periodSeconds: 5
-             failureThreshold: 10
-             successThreshold: 1
+              path: /health/
+              port: 8000
+            initialDelaySeconds: 120
+            periodSeconds: 5
+            failureThreshold: 10
+            successThreshold: 1
           readinessProbe:
-             httpGet:
-                 path: /health/
-                 port: 8000
-             initialDelaySeconds: 150
-             periodSeconds: 5
-             failureThreshold: 10
-             successThreshold: 1
+            httpGet:
+              path: /health/
+              port: 8000
+            initialDelaySeconds: 150
+            periodSeconds: 5
+            failureThreshold: 10
+            successThreshold: 1
