@@ -3,8 +3,8 @@ kind: Ingress
 metadata:
   name: {{ .Values.django.appName }}
   annotations:
-    kubernetes.io/ingress.class: "gce"  # Use "gce" for GKE Ingress
-    kubernetes.io/ingress.regional-static-ip-name: "better-staging-static-ip"  # Optional: For a static IP, create one in GCP and replace here
+    kubernetes.io/ingress.class: "nginx"  # Use "gce" for GKE Ingress
+#    kubernetes.io/ingress.regional-static-ip-name: "better-staging-static-ip"  # Optional: For a static IP, create one in GCP and replace here
 #    ingress.gcp.kubernetes.io/pre-shared-cert: "gke-openssl-cert"  # Replace with your pre-shared certificate name
 #    ingress.gcp.kubernetes.io/ssl-redirect: "false"
     
