@@ -4,10 +4,10 @@ metadata:
   name: django-backend-config
 spec:
 #Commented the health checkup part
-#healthCheck:
-#checkIntervalSec: 15
-#timeoutSec: 3
-#healthyThreshold: 1
-#unhealthyThreshold: 5
-#type: HTTP
-#requestPath: /health/  # Set the desired health check endpoint here
+healthCheck:
+checkIntervalSec: 15
+timeoutSec: 3
+healthyThreshold: 1
+unhealthyThreshold: 5
+type: HTTP
+requestPath: /health/  # Set the desired health check endpoint here
