@@ -33,15 +33,25 @@ spec:
             httpGet:
               path: /health/
               port: 8000
-            initialDelaySeconds: 120
-            periodSeconds: 5
-            failureThreshold: 10
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
             successThreshold: 1
           readinessProbe:
             httpGet:
               path: /health/
               port: 8000
-            initialDelaySeconds: 150
-            periodSeconds: 5
-            failureThreshold: 10
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            failureThreshold: 3
             successThreshold: 1
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - {{ .Values.django.appName }}
+            topologyKey: "kubernetes.io/hostname"
