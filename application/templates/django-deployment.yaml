@@ -8,11 +8,11 @@ spec:
   replicas: {{ .Values.django.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.django.appName }}  # Change 'pod' to 'app' for consistency
+      app: {{ .Values.django.appName }}
   template:
     metadata:
       labels:
-        app: {{ .Values.django.appName }}  # Change 'pod' to 'app' for consistency
+        app: {{ .Values.django.appName }}
     spec:
       containers:
         - name: {{ .Values.django.appName }}
@@ -30,11 +30,14 @@ spec:
               memory: {{ .Values.django.resources.limits.memory }}
               cpu: {{ .Values.django.resources.limits.cpu }}
           livenessProbe:
+            httpGet:
+              path: /health/
+              port: 8000
             initialDelaySeconds: 5
             periodSeconds: 10
           readinessProbe:
             httpGet:
               path: /health/
-              port: 8000  # Updated to match container port
+              port: 8000
             initialDelaySeconds: 5
             periodSeconds: 10
