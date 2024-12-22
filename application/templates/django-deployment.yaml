@@ -30,15 +30,11 @@ spec:
               memory: {{ .Values.django.resources.limits.memory }}
               cpu: {{ .Values.django.resources.limits.cpu }}
           livenessProbe:
-            exec:
-              command:
-                - cat
-                - /tmp/healthy
             initialDelaySeconds: 5
             periodSeconds: 10
           readinessProbe:
             httpGet:
-              path: /
+              path: /health/
               port: 8000  # Updated to match container port
             initialDelaySeconds: 5
             periodSeconds: 10
