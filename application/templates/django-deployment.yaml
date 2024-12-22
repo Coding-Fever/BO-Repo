@@ -29,19 +29,16 @@ spec:
             limits:
               memory: {{ .Values.django.resources.limits.memory }}
               cpu: {{ .Values.django.resources.limits.cpu }}
-          # livenessProbe:
-          #   httpGet:
-          #       path: /health/
-          #       port: 8000
-          #   initialDelaySeconds: 10
-          #   periodSeconds: 15
-          #   failureThreshold: 5
-          #   successThreshold: 1
-          # readinessProbe:
-          #   httpGet:
-          #       path: /health/
-          #       port: 8000
-          #   initialDelaySeconds: 10
-          #   periodSeconds: 15
-          #   failureThreshold: 5
-          #   successThreshold: 1
+          livenessProbe:
+            exec:
+              command:
+                - cat
+                - /tmp/healthy
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000  # Updated to match container port
+            initialDelaySeconds: 5
+            periodSeconds: 10
