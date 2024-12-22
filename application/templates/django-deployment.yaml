@@ -1,3 +1,4 @@
+# django-deployment.yaml
 apiVersion: apps/v1 
 kind: Deployment
 metadata:
@@ -13,12 +14,16 @@ spec:
     metadata:
       labels:
         app: {{ .Values.django.appName }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
     spec:
       containers:
         - name: {{ .Values.django.appName }}
           image: {{ .Values.django.image.repository }}:{{ .Values.django.image.tag }}
           ports:
             - containerPort: 8000
+              name: http
           envFrom:
             - configMapRef:
                 name: {{ .Values.configMap.name }}
@@ -29,22 +34,41 @@ spec:
             limits:
               memory: {{ .Values.django.resources.limits.memory }}
               cpu: {{ .Values.django.resources.limits.cpu }}
-          livenessProbe:
+          startupProbe:
             httpGet:
               path: /health/
-              port: 8000
-            initialDelaySeconds: 30
+              port: http
+            failureThreshold: 30
             periodSeconds: 10
-            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health/liveness/
+              port: http
+            initialDelaySeconds: 90
+            timeoutSeconds: 5
+            periodSeconds: 10
+            failureThreshold: 5
             successThreshold: 1
           readinessProbe:
             httpGet:
-              path: /health/
-              port: 8000
-            initialDelaySeconds: 60
+              path: /health/readiness/
+              port: http
+            initialDelaySeconds: 90
+            timeoutSeconds: 5
             periodSeconds: 10
             failureThreshold: 3
             successThreshold: 1
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sh", "-c", "sleep 10"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -55,3 +79,4 @@ spec:
                 values:
                 - {{ .Values.django.appName }}
             topologyKey: "kubernetes.io/hostname"
+      terminationGracePeriodSeconds: 60
