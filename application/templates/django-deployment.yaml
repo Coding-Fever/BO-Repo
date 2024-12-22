@@ -1,5 +1,4 @@
-# django-deployment.yaml
-apiVersion: apps/v1 
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.django.appName }}
@@ -9,21 +8,17 @@ spec:
   replicas: {{ .Values.django.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.django.appName }}
+      app: {{ .Values.django.appName }}  # Change 'pod' to 'app' for consistency
   template:
     metadata:
       labels:
-        app: {{ .Values.django.appName }}
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "8000"
+        app: {{ .Values.django.appName }}  # Change 'pod' to 'app' for consistency
     spec:
       containers:
         - name: {{ .Values.django.appName }}
           image: {{ .Values.django.image.repository }}:{{ .Values.django.image.tag }}
           ports:
             - containerPort: 8000
-              name: http
           envFrom:
             - configMapRef:
                 name: {{ .Values.configMap.name }}
@@ -34,49 +29,19 @@ spec:
             limits:
               memory: {{ .Values.django.resources.limits.memory }}
               cpu: {{ .Values.django.resources.limits.cpu }}
-          startupProbe:
-            httpGet:
-              path: /health/
-              port: http
-            failureThreshold: 30
-            periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /health/liveness/
-              port: http
-            initialDelaySeconds: 90
-            timeoutSeconds: 5
-            periodSeconds: 10
-            failureThreshold: 5
-            successThreshold: 1
-          readinessProbe:
-            httpGet:
-              path: /health/readiness/
-              port: http
-            initialDelaySeconds: 90
-            timeoutSeconds: 5
-            periodSeconds: 10
-            failureThreshold: 3
-            successThreshold: 1
-          lifecycle:
-            preStop:
-              exec:
-                command: ["sh", "-c", "sleep 10"]
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - {{ .Values.django.appName }}
-            topologyKey: "kubernetes.io/hostname"
-      terminationGracePeriodSeconds: 60
+          # livenessProbe:
+          #   httpGet:
+          #       path: /health/
+          #       port: 8000
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 15
+          #   failureThreshold: 5
+          #   successThreshold: 1
+          # readinessProbe:
+          #   httpGet:
+          #       path: /health/
+          #       port: 8000
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 15
+          #   failureThreshold: 5
+          #   successThreshold: 1
