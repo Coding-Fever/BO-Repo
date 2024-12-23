@@ -38,9 +38,9 @@ data:
   POLL_SETTLEMENT_SQS_URL : "https://sqs.ap-south-1.amazonaws.com/490263886323/poll_expiry_settlement_queue.fifo"
   YOUTUBE_API_KEY : "AIzaSyDcRIYYRVZXXaLCXD_HaHaE_peOW_kfJp4"
   SPARK_CLUSTER_ID : "j-D4QIABT4WNPG"
-  LEADERBOARD_SPARK_SCRIPT_PATH_S3 : "s3://emr-cluster-bo/scripts/fantasy11_leaderboard.py"
+  LEADERBOARD_SPARK_SCRIPT_PATH_S3 : "gs://emr-cluster-bo/scripts/fantasy11_leaderboard.py"
   MONGO_CONNECTION_URI : "mongodb+srv://better_app_admin:better_app_admin@betteropinions-prod-db.83jsb.mongodb.net/?retryWrites=true&w=majority"
-  SPARK_JARS : "s3://emr-cluster-bo/jars/spark-redis_2.12-3.1.0-SNAPSHOT-jar-with-dependencies.jar"
+  SPARK_JARS : "gs://emr-cluster-bo/jars/spark-redis_2.12-3.1.0-SNAPSHOT-jar-with-dependencies.jar"
   SPARK_PACKAGES : "org.mongodb.spark:mongo-spark-connector_2.12:10.1.1"
   SPOT_BALL_QUESTION_IMAGE_URL_FORMAT : "https://api.integration-betteropinions.com/spotball/{value}"
   NO_OF_ANALYTICS_EVENTS_QUEUES : "1"
@@ -75,4 +75,4 @@ data:
   SERVER_ENVIRONMENT : "staging"
   BLACKLISTED_STATES_IP : '[]'
   BLACKLISTED_STATES_SIGNUP : '[]'
-  FANTASY11_LEADERBOARD_SPARK_SCRIPT_PATH_S3 : "s3://emr-cluster-bo/scripts/fantasy11_leaderboard.py"
+  FANTASY11_LEADERBOARD_SPARK_SCRIPT_PATH_S3 : "gs://emr-cluster-bo/scripts/fantasy11_leaderboard.py"
