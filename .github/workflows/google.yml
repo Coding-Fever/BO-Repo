@@ -38,6 +38,18 @@ jobs:
       - name: Create Static IP
         run: |
           gcloud compute addresses create gce-ingress-static-ip --global || true
+          
+      - name: Create ManagedCertificate
+        run: |
+          cat <<EOF | kubectl apply -f -
+          apiVersion: networking.gke.io/v1
+          kind: ManagedCertificate
+          metadata:
+            name: gce-openssl-cert
+          spec:
+            domains:
+              - api-v2.integration-betteropinions.com
+          EOF
 
       - name: Deploy Helm Chart
         run: |
