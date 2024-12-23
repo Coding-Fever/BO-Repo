@@ -1,5 +1,5 @@
 name: Deploy Redis to GKE 
- 
+
 on:
   push:
     branches: [ main ]
