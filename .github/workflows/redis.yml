@@ -1,4 +1,4 @@
-name: Deploy Redis to GKE
+name: Deploy Redis to GKE 
 
 on:
   push:
