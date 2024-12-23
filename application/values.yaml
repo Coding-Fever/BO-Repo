@@ -8,7 +8,7 @@ django:
   appName: better-backend-app-django
   host: api-v2.integration-betteropinions.com
   image:
-    repository: asia-south1-docker.pkg.dev/bo-stage/bo-main/11-12-2024_15-12-02
+    repository: asia-south1-docker.pkg.dev/bo-stage/bo-main/13-12-2024_12-15-33
     tag: latest
   replicas: 1
   resources:
