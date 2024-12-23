@@ -35,6 +35,15 @@ jobs:
           sudo mv linux-amd64/helm /usr/local/bin/helm
           helm version
 
+      - name: Create Static IP for GKE Ingress
+        run: |
+          gcloud compute addresses create gce-ingress-static-ip --global
+          openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj \
+                                             "/CN=api-v2.integration-betteropinions.com"
+      - name: Create cert for GKE Ingress
+        run: |
+          kubectl create secret tls gce-openssl-cert --cert=ssl/tls.crt --key=ssl/tls.key
+
       - name: Deploy Helm Chart
         run: |
           helm install django-env ./configuration 
