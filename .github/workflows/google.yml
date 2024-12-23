@@ -35,23 +35,9 @@ jobs:
           sudo mv linux-amd64/helm /usr/local/bin/helm
           helm version
 
-      - name: Create Static IP and Generate SSL Certificate
+      - name: Create Static IP
         run: |
-          gcloud compute addresses create gce-ingress-static-ip --global
-          mkdir -p ssl
-          openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ssl/tls.key -out ssl/tls.crt -subj \
-                                             "/CN=api-v2.integration-betteropinions.com"
-
-      - name: Create GCP SSL Certificate
-        run: |
-          gcloud compute ssl-certificates create gce-openssl-cert \
-            --certificate=ssl/tls.crt \
-            --private-key=ssl/tls.key \
-            --global
-
-      - name: Create Kubernetes TLS Secret
-        run: |
-          kubectl create secret tls gce-openssl-cert --cert=ssl/tls.crt --key=ssl/tls.key
+          gcloud compute addresses create gce-ingress-static-ip --global || true
 
       - name: Deploy Helm Chart
         run: |
