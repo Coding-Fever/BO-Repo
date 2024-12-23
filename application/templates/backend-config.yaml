@@ -10,4 +10,4 @@ spec:
     healthyThreshold: 1
     unhealthyThreshold: 5
     type: HTTP
-    requestPath: /*/  # Set the desired health check endpoint here
+    requestPath: /health/  # Set the desired health check endpoint here
