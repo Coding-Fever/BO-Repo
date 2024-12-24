@@ -7,7 +7,7 @@ on:
 
 env:
   PROJECT_ID: bo-stage
-  GKE_CLUSTER: box-be-cluster
+  GKE_CLUSTER: autopilot-bo-cluster
   GKE_ZONE: asia-south1
   VALUE_PATH: rabbitMQ/values.yaml
 
