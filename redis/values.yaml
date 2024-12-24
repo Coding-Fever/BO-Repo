@@ -132,14 +132,14 @@ architecture: replication
 auth:
   ## @param auth.enabled Enable password authentication
   ##
-  enabled: true
+  enabled: false
   ## @param auth.sentinel Enable password authentication on sentinels too
   ##
   sentinel: true
   ## @param auth.password Redis&reg; password
   ## Defaults to a random 10-character alphanumeric string if not set
   ##
-  password: "E6H'^xn40D/Y"
+  password: ""
   ## @param auth.existingSecret The name of an existing secret with Redis&reg; credentials
   ## NOTE: When it's set, the previous `auth.password` parameter is ignored
   ##
@@ -153,7 +153,7 @@ auth:
   usePasswordFiles: false
   ## @param auth.usePasswordFileFromSecret Mount password file from secret
   ##
-  usePasswordFileFromSecret: false
+  usePasswordFileFromSecret: true
 ## @param commonConfiguration [string] Common configuration to be added into the ConfigMap
 ## ref: https://redis.io/topics/config
 ##
