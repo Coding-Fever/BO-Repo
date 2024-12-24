@@ -30,7 +30,7 @@ data:
   REDIS_HOST : "redis-headless"
   REDIS_READ_REPLICA_HOST : "redis-headless"
   REDIS_PORT : "6379"
-  REDIS_PASSWORD : "E6H'^xn40D/Y"
+  REDIS_PASSWORD : "i9llV0pJW2"
   REVENUE_CRONTAB : "30 6 * * *"
   SECRET_KEY : "django-insecure-_ihhv(7+czj__95%0(1mnc#j&$pwahl40tq4dhd196=gmi$4!2"
   STREAK_BANNER_IMAGE_URL : "https://better-how-to-play.s3.ap-south-1.amazonaws.com/streak_banner_image.png"
