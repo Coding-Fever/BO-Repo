@@ -153,7 +153,7 @@ auth:
   usePasswordFiles: false
   ## @param auth.usePasswordFileFromSecret Mount password file from secret
   ##
-  usePasswordFileFromSecret: true
+  usePasswordFileFromSecret: false
 ## @param commonConfiguration [string] Common configuration to be added into the ConfigMap
 ## ref: https://redis.io/topics/config
 ##
