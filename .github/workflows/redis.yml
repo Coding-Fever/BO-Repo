@@ -73,13 +73,7 @@ jobs:
         helm upgrade --install $DEPLOYMENT_NAME bitnami/redis \
           --namespace $NAMESPACE \
           --values ./redis/values.yaml \
-          --set master.service.type=ClusterIP \
-          --set master.persistence.storageClass=standard-rwo \
-          --set master.persistence.size=8Gi \
-          --set replica.replicaCount=1 \
-          --set auth.enabled=true \
-          --set auth.password=${{ secrets.REDIS_PASSWORD }} \
-          --wait --timeout 10m
+          
           
     - name: Verify Deployment
       run: |
