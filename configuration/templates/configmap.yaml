@@ -28,7 +28,7 @@ data:
   READ_DB_PORT : "5432"
   READ_DB_USER : "better_app_admin"
   REDIS_HOST : "redis-headless"
-  # REDIS_READ_REPLICA_HOST : "redis-replicas"
+  REDIS_READ_REPLICA_HOST : "redis-headless"
   REDIS_PORT : "6379"
   # REDIS_PASSWORD : "i9llV0pJW2"
   # REDIS_PASSWORD : ""
