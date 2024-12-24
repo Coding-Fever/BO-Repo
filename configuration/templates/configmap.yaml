@@ -15,7 +15,7 @@ data:
   JAEGER_AGENT_HOST : "10.1.0.69"
   JAEGER_AGENT_PORT : "5775"
   JWT_EXPIRY_DAYS : "100"
-  RABBITMQ_HOST : "rabbitmq-headless"
+  RABBITMQ_HOST : "rabbitmq-test-0"
   RABBITMQ_PORT : "5672"
   RABBITMQ_USER : "admin"
   RABBITMQ_PASSWORD : "STs3gz0RCpIiOka"
