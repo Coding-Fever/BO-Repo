@@ -13,8 +13,8 @@ django:
   replicas: 1
   resources:
     requests:
-      memory: 256Mi
-      cpu: 200m
+      cpu: 2
+      memory: 4Gi 
     limits:
-      memory: 512Mi
-      cpu: 500m
+      cpu: 3
+      memory: 6Gi
