@@ -53,7 +53,7 @@ jobs:
 
       - name: Deploy Helm Chart
         run: |
-          helm install django-env ./configuration 
-          helm install backend-application ./application
-          helm install django-ingress ./ingress
-          helm install django-hpa ./autoscalling
+          helm upgrade --install django-env ./configuration 
+          helm upgrade --install backend-application ./application
+          helm upgrade --install django-ingress ./ingress
+          helm upgrade --install django-hpa ./autoscalling
