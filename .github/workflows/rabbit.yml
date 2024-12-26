@@ -44,10 +44,10 @@ jobs:
     #   run: |
     #     curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
-    # - name: Add Bitnami Helm repo
-    #   run: |
-    #     helm repo add bitnami https://charts.bitnami.com/bitnami
-    #     helm repo update
+    - name: Add Bitnami Helm repo
+      run: |
+        helm repo add bitnami https://charts.bitnami.com/bitnami
+        helm repo update
 
     - name: Deploy RabbitMQ
       run: |
