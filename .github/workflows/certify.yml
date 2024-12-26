@@ -33,7 +33,7 @@ jobs:
 
       - name: Create Static IP for GKE Ingress
         run: |
-          gcloud compute addresses create gke-ingress-static-ip --global
+          gcloud compute addresses create gce-ingress-static-ip --global || true
 
       - name: Create ManagedCertificate
         run: |
