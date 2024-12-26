@@ -51,7 +51,7 @@ jobs:
 
     - name: Deploy RabbitMQ
       run: |
-        helm upgrade --install rabbitmq-test bitnami/rabbitmq -f $VALUE_PATH
+        helm install rabbitmq bitnami/rabbitmq -f $VALUE_PATH
 
     - name: Wait for RabbitMQ pod to be ready
       run: |
