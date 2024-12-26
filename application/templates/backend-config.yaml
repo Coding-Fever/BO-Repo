@@ -6,7 +6,7 @@ spec:
 #Commented the health checkup part
   healthCheck:
     checkIntervalSec: 15
-    timeoutSec: 3
+    timeoutSec: 5 #increased the timeout
     healthyThreshold: 1
     unhealthyThreshold: 5
     type: HTTP
