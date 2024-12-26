@@ -37,11 +37,10 @@ jobs:
         run: |
           gcloud compute addresses create gke-ingress-static-ip --global
 
-      - name: Create cert for GKE Ingress
+      - name: Create ManagedCertificate
         run: |
-          openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=api-v2.integration-betteropinions.com"
-          kubectl create secret tls gke-openssl-cert --cert=tls.crt --key=tls.key
-
+          kubectl apply -f ./ssl/certificate.yaml
+          
       - name: Deploy Ingress
         run: |
           helm upgrade --install django-ingress ./ingress
