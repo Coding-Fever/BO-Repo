@@ -9,7 +9,7 @@ on:
 
 env:
   PROJECT_ID: bo-stage
-  GKE_CLUSTER: autopilot-bo-cluster
+  GKE_CLUSTER: demo-cluster
   GKE_ZONE: asia-south1
   VALUE_PATH: redis/values.yaml
   DEPLOYMENT_NAME: redis
