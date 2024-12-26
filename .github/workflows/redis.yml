@@ -46,18 +46,6 @@ jobs:
       run: |
         kubectl config view
         kubectl cluster-info
-    
-    # - name: Check Cluster Resources
-    #   run: |
-    #     echo "Checking node capacity..."
-    #     kubectl describe nodes
-    #     echo "Checking existing pods..."
-    #     kubectl get pods -A
-        
-    # - name: Install Helm
-    #   uses: azure/setup-helm@v3
-    #   with:
-    #     version: 'v3.8.0'
 
     - name: Create Namespace
       run: |
