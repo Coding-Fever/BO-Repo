@@ -20,18 +20,18 @@ jobs:
 
       - name: Configure kubectl
         run: |
-          gcloud container clusters get-credentials box-be-cluster --region asia-south1 --project bo-stage
+          gcloud container clusters get-credentials demo-cluster --region asia-south1 --project bo-stage
 
       - name: Install gke-gcloud-auth-plugin
         run: |
           gcloud components install gke-gcloud-auth-plugin
 
-      - name: Install Helm
-        run: |
-          curl -fsSL https://get.helm.sh/helm-v3.9.0-linux-amd64.tar.gz -o helm.tar.gz
-          tar -zxvf helm.tar.gz
-          sudo mv linux-amd64/helm /usr/local/bin/helm
-          helm version
+      # - name: Install Helm
+      #   run: |
+      #     curl -fsSL https://get.helm.sh/helm-v3.9.0-linux-amd64.tar.gz -o helm.tar.gz
+      #     tar -zxvf helm.tar.gz
+      #     sudo mv linux-amd64/helm /usr/local/bin/helm
+      #     helm version
 
       - name: Deploy Django HPA
         run: |
