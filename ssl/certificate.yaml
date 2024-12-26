@@ -1,0 +1,7 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: gce-openssl-cert
+spec:
+  domains:
+    - api-v2.integration-betteropinions.com
