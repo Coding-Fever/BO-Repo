@@ -1,9 +1,7 @@
 name: Deploy Django HPA
 
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch:
 
 jobs:
   deploy:
