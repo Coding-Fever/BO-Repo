@@ -11,3 +11,4 @@ spec:
     unhealthyThreshold: 5
     type: HTTP
     requestPath: /health/  # Set the desired health check endpoint here
+    port: 80
