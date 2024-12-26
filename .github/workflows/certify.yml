@@ -28,12 +28,12 @@ jobs:
         run: |
           gcloud components install gke-gcloud-auth-plugin
 
-      - name: Install Helm
-        run: |
-          curl -fsSL https://get.helm.sh/helm-v3.9.0-linux-amd64.tar.gz -o helm.tar.gz
-          tar -zxvf helm.tar.gz
-          sudo mv linux-amd64/helm /usr/local/bin/helm
-          helm version
+      # - name: Install Helm
+      #   run: |
+      #     curl -fsSL https://get.helm.sh/helm-v3.9.0-linux-amd64.tar.gz -o helm.tar.gz
+      #     tar -zxvf helm.tar.gz
+      #     sudo mv linux-amd64/helm /usr/local/bin/helm
+      #     helm version
 
       - name: Create Static IP for GKE Ingress
         run: |
@@ -46,4 +46,4 @@ jobs:
 
       - name: Deploy Ingress
         run: |
-          helm install django-ingress ./ingress
+          helm upgrade --install django-ingress ./ingress
