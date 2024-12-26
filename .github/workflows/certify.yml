@@ -4,7 +4,12 @@ on:
   workflow_dispatch:
 
 jobs:
+  setup:
+    uses: ./.github/workflows/install.yml
+    secrets: inherit
+    
   deploy:
+    needs: setup
     runs-on: ubuntu-latest
 
     steps:
@@ -25,13 +30,6 @@ jobs:
       - name: Install gke-gcloud-auth-plugin
         run: |
           gcloud components install gke-gcloud-auth-plugin
-
-      # - name: Install Helm
-      #   run: |
-      #     curl -fsSL https://get.helm.sh/helm-v3.9.0-linux-amd64.tar.gz -o helm.tar.gz
-      #     tar -zxvf helm.tar.gz
-      #     sudo mv linux-amd64/helm /usr/local/bin/helm
-      #     helm version
 
       - name: Create Static IP for GKE Ingress
         run: |
