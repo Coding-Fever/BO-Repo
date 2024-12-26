@@ -12,6 +12,10 @@ env:
   NAMESPACE: default
 
 jobs:
+  setup:
+    uses: ./.github/workflows/install.yml
+    secrets: inherit
+    
   deploy:
     name: Deploy to GKE
     runs-on: ubuntu-latest
