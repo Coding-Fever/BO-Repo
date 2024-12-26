@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.django.appName }}
   annotations:
     kubernetes.io/ingress.class: "gce"
-    kubernetes.io/ingress.global-static-ip-name: "gce-ingress-static-ip"
+    kubernetes.io/ingress.global-static-ip-name: "gke-ingress-static-ip"
     networking.gke.io/managed-certificates: "gce-openssl-cert"
     ingress.gcp.kubernetes.io/ssl-redirect: "true"
     cloud.google.com/load-balancer-neg-ready: "true"
