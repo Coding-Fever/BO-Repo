@@ -1,6 +1,8 @@
 name: Deploy RabbitMQ to GKE
 
 on:
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 env:
@@ -10,42 +12,18 @@ env:
   VALUE_PATH: rabbitMQ/values.yaml
 
 jobs:
+  setup:
+    uses: ./.github/workflows/install.yml
+    secrets: inherit
+
   deploy:
+    needs: setup
     name: Deploy
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-
-    - name: Setup Google Cloud CLI
-      uses: google-github-actions/setup-gcloud@v0.2.1
-      with:
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
-        project_id: ${{ env.PROJECT_ID }}
-
-    - name: Install gke-gcloud-auth-plugin
-      run: |
-        gcloud components install gke-gcloud-auth-plugin
-        echo "USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
-
-    - name: Get GKE credentials
-      run: |
-        gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE" --project "$PROJECT_ID"
-
-    - name: Verify kubectl configuration
-      run: |
-        kubectl config view
-        kubectl cluster-info
-
-    # - name: Install Helm
-    #   run: |
-    #     curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-
-    - name: Add Bitnami Helm repo
-      run: |
-        helm repo add bitnami https://charts.bitnami.com/bitnami
-        helm repo update
 
     - name: Deploy RabbitMQ
       run: |
