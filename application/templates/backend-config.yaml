@@ -9,5 +9,5 @@ spec:
     timeoutSec: 5 #increased the timeout
     healthyThreshold: 1
     unhealthyThreshold: 5
-    type: HTTP
+    type: HTTPS
     requestPath: /health/  # Set the desired health check endpoint here
