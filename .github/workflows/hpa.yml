@@ -1,4 +1,4 @@
-name: Deploy Django HPA
+name: Deploy Django HPA 
 
 on:
   workflow_dispatch:
