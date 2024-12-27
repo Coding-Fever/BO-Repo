@@ -1,1 +1,34 @@
 
+name: Run All Workflows
+
+on:
+  workflow_dispatch:  # This allows manual triggering
+  # You can add other triggers as needed
+
+jobs:
+  run_all:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Install Workflow
+        uses: ./.github/workflows/install.yml
+
+      - name: Run Redis Workflow
+        uses: ./.github/workflows/redis.yml
+
+      - name: Run RabbitMQ Workflow
+        uses: ./.github/workflows/rabbit.yml
+
+      - name: Run Certify Workflow
+        uses: ./.github/workflows/certify.yml
+
+      - name: Run Env Secret Workflow
+        uses: ./.github/workflows/env-secret.yml
+
+      - name: Run Django Application Workflow
+        uses: ./.github/workflows/django-application.yml
+
+      - name: Run HPA Workflow
+        uses: ./.github/workflows/hpa.yml
