@@ -25,7 +25,7 @@ COPY . /betteropinions-app
 RUN ls -la /betteropinions-app && ls -la /betteropinions-app/betteropinions
 
 # Collect static files (if needed)
-RUN python manage.py collectstatic --noinput
+# RUN python manage.py collectstatic --noinput
 
 # Expose the application port
 EXPOSE 8000
