@@ -1,4 +1,3 @@
-
 name: Run All Workflows
 
 on:
@@ -6,29 +5,29 @@ on:
   # You can add other triggers as needed
 
 jobs:
-  run_all:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  run_install:
+    uses: ./.github/workflows/install.yml
 
-      - name: Run Install Workflow
-        uses: ./.github/workflows/install.yml
+  run_redis:
+    needs: run_install
+    uses: ./.github/workflows/redis.yml
 
-      - name: Run Redis Workflow
-        uses: ./.github/workflows/redis.yml
+  run_rabbit:
+    needs: run_redis
+    uses: ./.github/workflows/rabbit.yml
 
-      - name: Run RabbitMQ Workflow
-        uses: ./.github/workflows/rabbit.yml
+  run_certify:
+    needs: run_rabbit
+    uses: ./.github/workflows/certify.yml
 
-      - name: Run Certify Workflow
-        uses: ./.github/workflows/certify.yml
+  run_env_secret:
+    needs: run_certify
+    uses: ./.github/workflows/env-secret.yml
 
-      - name: Run Env Secret Workflow
-        uses: ./.github/workflows/env-secret.yml
+  run_django_application:
+    needs: run_env_secret
+    uses: ./.github/workflows/django-application.yml
 
-      - name: Run Django Application Workflow
-        uses: ./.github/workflows/django-application.yml
-
-      - name: Run HPA Workflow
-        uses: ./.github/workflows/hpa.yml
+  run_hpa:
+    needs: run_django_application
+    uses: ./.github/workflows/hpa.yml
