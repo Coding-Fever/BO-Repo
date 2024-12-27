@@ -33,4 +33,4 @@ jobs:
 
       - name: Deploy Helm Chart
         run: |
-          helm install backend-application ./application
+          helm upgrade --install backend-application ./application
