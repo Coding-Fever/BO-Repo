@@ -33,4 +33,4 @@ jobs:
 
       - name: Deploy Django HPA
         run: |
-          helm install django-hpa ./autoscalling
+          helm upgrade --install django-hpa ./autoscalling
