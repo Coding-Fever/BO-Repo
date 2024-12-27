@@ -1,6 +1,7 @@
 name: Deploy Django HPA 
 
 on:
+  workflow_call:
   workflow_dispatch:
 
 jobs:
