@@ -1,6 +1,7 @@
 name: Deploy Backend Application and Configuration
 
 on:
+  workflow_call:
   workflow_dispatch:
 
 jobs:
