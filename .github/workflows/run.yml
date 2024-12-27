@@ -12,28 +12,46 @@ jobs:
     needs: run-install
     uses: ./.github/workflows/rabbit.yml
     secrets: inherit
+    permissions:
+      contents: read
+      id-token: write
 
   run-redis:
     needs: run-rabbit
     uses: ./.github/workflows/redis.yml
     secrets: inherit
+    permissions:
+      contents: read
+      id-token: write
 
   run-env-secret:
     needs: run-redis
     uses: ./.github/workflows/env-secret.yml
     secrets: inherit
+    permissions:
+      contents: read
+      id-token: write
 
   run-certify:
     needs: run-env-secret
     uses: ./.github/workflows/certify.yml
     secrets: inherit
+    permissions:
+      contents: read
+      id-token: write
 
   run-django-application:
     needs: run-certify
     uses: ./.github/workflows/django-application.yml
     secrets: inherit
+    permissions:
+      contents: read
+      id-token: write
 
   run-hpa:
     needs: run-django-application
     uses: ./.github/workflows/hpa.yml
     secrets: inherit
+    permissions:
+      contents: read
+      id-token: write
