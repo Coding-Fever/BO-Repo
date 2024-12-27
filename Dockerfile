@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Set working directory
-WORKDIR /app
+WORKDIR /betteropinions-app/betteropinions
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -19,7 +19,10 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the application code
-COPY . ./
+COPY . .
+
+# Debug: List contents of the current directory
+RUN pwd && ls -la
 
 # Collect static files (if needed)
 RUN python manage.py collectstatic --noinput
