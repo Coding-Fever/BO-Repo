@@ -1,5 +1,5 @@
 # Use a lightweight Python base image
-FROM python:3.8-slim  # Changed to match the Python version in your container
+FROM python:3.8-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
