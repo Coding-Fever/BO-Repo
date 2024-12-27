@@ -1,12 +1,12 @@
 # Use a lightweight Python base image
-FROM python:3.10-slim
+FROM python:3.8-slim  # Changed to match the Python version in your container
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Set working directory
-WORKDIR /betteropinions-app
+WORKDIR /betteropinions-app/betteropinions
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -14,14 +14,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy the entire repository content
-COPY . .
+# Copy requirements first for better cache usage
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy the project files
+COPY . /betteropinions-app
 
-# Debug: List contents of the current directory
-RUN pwd && ls -la
+# Debug: List contents of the directories
+RUN ls -la /betteropinions-app && ls -la /betteropinions-app/betteropinions
 
 # Collect static files (if needed)
 RUN python manage.py collectstatic --noinput
