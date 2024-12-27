@@ -3,6 +3,12 @@ name: Deploy Backend Application and Configuration
 on:
   workflow_dispatch:
 
+env:
+  PROJECT_ID: bo-stage
+  REGION: asia-south1
+  ARTIFACT_REPO: bo-backend-django
+  IMAGE_NAME: backend-application
+
 jobs:
   setup:
     uses: ./.github/workflows/install.yml
@@ -27,18 +33,23 @@ jobs:
         run: |
           gcloud auth configure-docker asia-south1-docker.pkg.dev
 
-      - name: Build and Push Docker Image
+      - name: Build Docker Image
         run: |
-          docker build -t asia-south1-docker.pkg.dev/bo-stage/bo-backend-django:latest .
-          docker push asia-south1-docker.pkg.dev/bo-stage/bo-backend-django:latest
+          docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+          docker tag ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.IMAGE_NAME }}:latest
 
-      - name: Configure kubectl
+      - name: Push Docker Image to Artifact Registry
         run: |
-          gcloud container clusters get-credentials demo-cluster --region asia-south1 --project bo-stage
-
+          docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.IMAGE_NAME }}:latest
+          
       - name: Install gke-gcloud-auth-plugin
         run: |
           gcloud components install gke-gcloud-auth-plugin
+          
+      - name: Configure kubectl
+        run: |
+          gcloud container clusters get-credentials demo-cluster --region asia-south1 --project bo-stage
 
       - name: Deploy Helm Chart
         run: |
