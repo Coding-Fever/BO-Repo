@@ -1,7 +1,6 @@
 name: Deploy Certificates and Ingress
 
 on:
-  workflow_call:
   workflow_dispatch:
 
 jobs:
