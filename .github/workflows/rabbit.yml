@@ -1,6 +1,7 @@
 name: Deploy RabbitMQ to GKE
 
 on:
+  workflow_call:
   workflow_dispatch:
 
 env:
