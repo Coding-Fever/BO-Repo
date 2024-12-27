@@ -1,33 +1,32 @@
-name: Run All Workflows
+name: Run All Deployments
 
 on:
-  workflow_dispatch:  # This allows manual triggering
-  # You can add other triggers as needed
+  workflow_dispatch:
 
 jobs:
-  run_install:
-    uses: ./.github/workflows/install.yml
+  run-all:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-  run_redis:
-    needs: run_install
-    uses: ./.github/workflows/redis.yml
+      - name: Run Install and Setup
+        uses: ./.github/workflows/install.yml
 
-  run_rabbit:
-    needs: run_redis
-    uses: ./.github/workflows/rabbit.yml
+      - name: Deploy RabbitMQ
+        uses: ./.github/workflows/rabbit.yml
 
-  run_certify:
-    needs: run_rabbit
-    uses: ./.github/workflows/certify.yml
+      - name: Deploy Redis
+        uses: ./.github/workflows/redis.yml
 
-  run_env_secret:
-    needs: run_certify
-    uses: ./.github/workflows/env-secret.yml
+      - name: Deploy Django Environment and Secrets
+        uses: ./.github/workflows/env-secret.yml
 
-  run_django_application:
-    needs: run_env_secret
-    uses: ./.github/workflows/django-application.yml
+      - name: Deploy Certificates and Ingress
+        uses: ./.github/workflows/certify.yml
 
-  run_hpa:
-    needs: run_django_application
-    uses: ./.github/workflows/hpa.yml
+      - name: Deploy Backend Application and Configuration
+        uses: ./.github/workflows/django-application.yml
+
+      - name: Deploy Django HPA
+        uses: ./.github/workflows/hpa.yml
