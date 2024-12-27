@@ -8,7 +8,7 @@ env:
   REGION: asia-south1
   ARTIFACT_REPO: bo-backend-django
   IMAGE_NAME: backend-application
-
+  
 jobs:
   setup:
     uses: ./.github/workflows/install.yml
@@ -50,45 +50,20 @@ jobs:
       - name: Configure kubectl
         run: |
           gcloud container clusters get-credentials demo-cluster --region asia-south1 --project bo-stage
-
-      - name: Deploy Helm Chart
-        run: |
-          # Get the current revision number
-          CURRENT_REVISION=$(helm history backend-application -o json | jq -r '.[-1].revision')
           
-          # Attempt to upgrade or install the application
-          if ! helm upgrade --install backend-application ./application \
-            --set image.repository=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.IMAGE_NAME }} \
-            --set image.tag=${{ github.sha }}; then
-            echo "Deployment failed. Rolling back to previous revision."
-            
-            # If it's a new installation (no previous revision), uninstall
-            if [ -z "$CURRENT_REVISION" ]; then
-              helm uninstall backend-application
-            else
-              # Otherwise, rollback to the previous revision
-              helm rollback backend-application $CURRENT_REVISION
-            fi
-            
-            # Exit with an error code
+      - name: Deploy Helm Chart
+        id: deploy
+        run: |
+          helm upgrade --install backend-application ./application --set image.tag=${{ github.sha }} || echo "::set-output name=deploy_failed::true"
+
+      - name: Rollback if deployment failed
+        if: steps.deploy.outputs.deploy_failed == 'true'
+        run: |
+          LAST_REVISION=$(helm history backend-application -o json | jq -r '.[] | select(.status == "deployed") | .revision' | sort -rn | head -n 1)
+          if [ -n "$LAST_REVISION" ]; then
+            echo "Rolling back to revision $LAST_REVISION"
+            helm rollback backend-application $LAST_REVISION
+          else
+            echo "No previous successful revision found. Unable to rollback."
             exit 1
           fi
-
-      - name: Verify Deployment
-        run: |
-          # Wait for the deployment to be ready
-          kubectl rollout status deployment/backend-application --timeout=300s
-          # Check if the deployment is successful
-          if [ $? -ne 0 ]; then
-            echo "Deployment verification failed. Rolling back."
-            helm rollback backend-application
-            exit 1
-          fi
-
-      - name: Cleanup on Failure
-        if: failure()
-        run: |
-          echo "Deployment failed. Ensuring rollback has occurred."
-          helm history backend-application
-          echo "Current revision after potential rollback:"
-          helm list | grep backend-application
