@@ -25,7 +25,7 @@ COPY . .
 RUN pwd && ls -la
 
 # Collect static files (if needed)
-RUN python manage.py collectstatic --noinput'''
+RUN python manage.py collectstatic --noinput
 
 # Expose the application port
 EXPOSE 8000
