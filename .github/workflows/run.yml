@@ -4,29 +4,36 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-all:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  run-install:
+    uses: ./.github/workflows/install.yml
+    secrets: inherit
 
-      - name: Run Install and Setup
-        uses: ./.github/workflows/install.yml
+  run-rabbit:
+    needs: run-install
+    uses: ./.github/workflows/rabbit.yml
+    secrets: inherit
 
-      - name: Deploy RabbitMQ
-        uses: ./.github/workflows/rabbit.yml
+  run-redis:
+    needs: run-rabbit
+    uses: ./.github/workflows/redis.yml
+    secrets: inherit
 
-      - name: Deploy Redis
-        uses: ./.github/workflows/redis.yml
+  run-env-secret:
+    needs: run-redis
+    uses: ./.github/workflows/env-secret.yml
+    secrets: inherit
 
-      - name: Deploy Django Environment and Secrets
-        uses: ./.github/workflows/env-secret.yml
+  run-certify:
+    needs: run-env-secret
+    uses: ./.github/workflows/certify.yml
+    secrets: inherit
 
-      - name: Deploy Certificates and Ingress
-        uses: ./.github/workflows/certify.yml
+  run-django-application:
+    needs: run-certify
+    uses: ./.github/workflows/django-application.yml
+    secrets: inherit
 
-      - name: Deploy Backend Application and Configuration
-        uses: ./.github/workflows/django-application.yml
-
-      - name: Deploy Django HPA
-        uses: ./.github/workflows/hpa.yml
+  run-hpa:
+    needs: run-django-application
+    uses: ./.github/workflows/hpa.yml
+    secrets: inherit
